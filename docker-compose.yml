@@ -1,0 +1,43 @@
+services:
+  database:
+    image: postgres
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=${DJANGO_DATABASE_USER}
+      - POSTGRES_PASSWORD=${DJANGO_DATABASE_PASSWORD}
+      - POSTGRES_DB=${DJANGO_DATABASE_NAME}
+    volumes:
+      - ./dbdata:/var/lib/postgresql/data
+
+  app:
+    container_name: app
+    build: .
+    restart: on-failure:10
+    command: >
+      sh -c "cd app &&
+            python manage.py collectstatic --noinput &&
+            gunicorn app.wsgi -b 0.0.0.0:8000"
+    volumes:
+      - .:/app
+    ports:
+      - 8000:8000
+    environment:
+      - DJANGO_DEBUG=${DJANGO_DEBUG}
+      - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
+      - DJANGO_DATABASE_NAME=${DJANGO_DATABASE_NAME}
+      - DJANGO_DATABASE_USER=${DJANGO_DATABASE_USER}
+      - DJANGO_DATABASE_PASSWORD=${DJANGO_DATABASE_PASSWORD}
+      - DJANGO_DATABASE_HOST=${DJANGO_DATABASE_HOST}
+      - DJANGO_DATABASE_PORT=${DJANGO_DATABASE_PORT}
+    depends_on:
+      - database
+
+  nginx:
+    build: ./nginx
+    restart: always
+    ports:
+      - 80:80
+    depends_on:
+      - app
