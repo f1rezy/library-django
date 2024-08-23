@@ -17,6 +17,11 @@ class Book(Model):
         help_text='max 150 символов',
         unique=True,
     )
+    author = models.CharField(
+        'автор',
+        max_length=100,
+        help_text='max 100 символов',
+    )
     description = models.CharField(
         'описание',
         max_length=300,
