@@ -4,4 +4,6 @@ exclude = */migrations/
 max-complexity = 10
 import-order-style = google
 application-import-names = 
-    core
+    core,
+    library,
+    feedback
