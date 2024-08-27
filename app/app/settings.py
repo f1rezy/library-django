@@ -7,9 +7,6 @@ from environ import Env
 env = Env(
     DJANGO_DEBUG=(bool, True),
     DJANGO_SECRET_KEY=(str, 'secret'),
-    DJANGO_AWS_ACCESS_KEY_ID=(str, ''),
-    DJANGO_AWS_SECRET_ACCESS_KEY=(str, ''),
-    DJANGO_AWS_STORAGE_BUCKET_NAME=(str, ''),
     DJANGO_DATABASE_NAME=(str, ''),
     DJANGO_DATABASE_USER=(str, ''),
     DJANGO_DATABASE_PASSWORD=(str, ''),
@@ -154,6 +151,8 @@ USE_I18N = True
 USE_TZ = True
 
 
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'static'
 
@@ -178,11 +177,11 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 10,
 }
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
 }
-
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'

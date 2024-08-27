@@ -4,6 +4,8 @@ from feedback.models import Feedback, Offer
 
 
 class FeedbackSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(source='user.username', read_only=True)
+
     class Meta:
         model = Feedback
         fields = '__all__'

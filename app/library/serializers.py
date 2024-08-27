@@ -12,6 +12,7 @@ class ImageSerializer(serializers.ModelSerializer):
 
 class ReservationSerializer(serializers.ModelSerializer):
     username = serializers.CharField(source='user.username', read_only=True)
+    book_title = serializers.CharField(source='book.title', read_only=True)
 
     class Meta:
         model = Reservation
@@ -19,6 +20,8 @@ class ReservationSerializer(serializers.ModelSerializer):
 
 
 class OwnershipSerializer(serializers.ModelSerializer):
+    book_title = serializers.CharField(source='book.title', read_only=True)
+    
     class Meta:
         model = Ownership
         fields = '__all__'

@@ -95,6 +95,7 @@ class Reservation(Model):
         verbose_name = 'бронирование'
         verbose_name_plural = 'бронирования'
         default_related_name = 'reservations'
+        unique_together = ('book', 'user')
 
     def __str__(self):
         return str(self.id)
