@@ -12,10 +12,11 @@ from rest_framework_simplejwt.views import (
 
 from core.views import UserViewSet
 from feedback.views import FeedbackViewSet, OfferViewSet
-from library.views import BookViewSet, ReservationViewSet
+from library.views import BookViewSet, CategoryViewSet, ReservationViewSet
 
 router = routers.DefaultRouter()
-router.register(r'books', BookViewSet)
+router.register(r'books', BookViewSet, basename='books')
+router.register(r'categories', CategoryViewSet, basename='categories')
 router.register(r'reservations', ReservationViewSet, basename='reservations')
 router.register(r'feedbacks', FeedbackViewSet, basename='feedbacks')
 router.register(r'offers', OfferViewSet, basename='offers')

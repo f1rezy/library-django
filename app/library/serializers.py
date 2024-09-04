@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from feedback.serializers import FeedbackSerializer
-from library.models import Book, Image, Ownership, Reservation
+from library.models import Book, Category, Image, Ownership, Reservation
 
 
 class ImageSerializer(serializers.ModelSerializer):
@@ -21,9 +21,15 @@ class ReservationSerializer(serializers.ModelSerializer):
 
 class OwnershipSerializer(serializers.ModelSerializer):
     book_title = serializers.CharField(source='book.title', read_only=True)
-    
+
     class Meta:
         model = Ownership
+        fields = '__all__'
+
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
         fields = '__all__'
 
 
@@ -31,6 +37,7 @@ class BookSerializer(serializers.ModelSerializer):
     image = ImageSerializer()
     reservations = ReservationSerializer(many=True)
     feedbacks = FeedbackSerializer(many=True)
+    category = CategorySerializer()
 
     class Meta:
         model = Book

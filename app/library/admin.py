@@ -2,7 +2,7 @@ from django.contrib import admin
 from unfold.admin import ModelAdmin, TabularInline
 
 from feedback.admin import FeedbackInline
-from library.models import Book, Image, Ownership, Reservation
+from library.models import Book, Category, Image, Ownership, Reservation
 
 
 class Image(TabularInline):
@@ -24,6 +24,7 @@ class OwnershipInline(TabularInline):
 class BookAdmin(ModelAdmin):
     list_display = (
         Book.title.field.name,
+        Book.category.field.name,
         Book.image_tmb,
     )
     search_fields = (
@@ -59,4 +60,11 @@ class OwnershipAdmin(ModelAdmin):
     )
     readonly_fields = (
         Ownership.started.field.name,
+    )
+
+
+@admin.register(Category)
+class CategoryAdmin(ModelAdmin):
+    list_display = (
+        Category.name.field.name,
     )

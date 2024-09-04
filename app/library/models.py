@@ -10,6 +10,23 @@ def item_directory_path(instance, filename):
     return f'library/{instance.book.id}/{filename}'
 
 
+class Category(Model):
+    name = models.CharField(
+        'название',
+        max_length=150,
+        help_text='max 150 символов',
+        unique=True,
+    )
+
+    class Meta:
+        ordering = ('name', 'id')
+        verbose_name = 'категория'
+        verbose_name_plural = 'категории'
+
+    def __str__(self):
+        return self.name
+
+
 class Book(Model):
     title = models.CharField(
         'название',
@@ -26,6 +43,13 @@ class Book(Model):
         'описание',
         max_length=300,
         help_text='max 300 символов',
+    )
+    category = models.ForeignKey(
+        Category,
+        on_delete=models.CASCADE,
+        verbose_name='категория',
+        help_text='Выберите категорию',
+        related_name='books',
     )
 
     class Meta:
